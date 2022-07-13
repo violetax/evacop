@@ -61,13 +61,13 @@ while getopts ":hr" o; do
             whatis
             exit
             ;;
-		r)
-			recursive=true
-			;;
-        \?)
-            echo "invalid option: -$OPTARG"
-            exit
-            ;;
+	r)
+	recursive=true
+	;;
+	\?)
+		echo "invalid option: -$OPTARG"
+		exit
+		;;
     esac
 done
 shift $((OPTIND-1))
