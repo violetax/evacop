@@ -57,17 +57,17 @@ function vim_gcc_execute_continue() {
 # GETOPS este es un builtin de bash, para que las scrips cojan opciones
 while getopts ":hr" o; do
     case "${o}" in
-        h)
-            whatis
-            exit
-            ;;
+	h)
+		whatis
+		exit
+		;;
 	r)
 	recursive=true
 	;;
 	\?)
-		echo "invalid option: -$OPTARG"
-		exit
-		;;
+	echo "invalid option: -$OPTARG"
+	exit
+	;;
     esac
 done
 shift $((OPTIND-1))
