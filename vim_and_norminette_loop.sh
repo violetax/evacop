@@ -28,23 +28,25 @@ cfiles=( "ex03/ft_str_is_numeric.c" "ex04/ft_str_is_lowercase.c" "ex05/ft_str_is
 ######## TO DO → que no haya que editarlo manualmente cada vez que cierras la script, y ya has avanzado
 
 
-# set -x # uncomment para debug
+set -x # uncomment para debug
 for cf in "${cfiles[@]}" 
 do
 	normioutp="${cf}.normi"
 	gccout="${cf}.gci"
 	[[ $(sed "1p" ${cf} | grep "\*\*\*\*" )  ]] && sed -i '' "1,12d" ${cf}  
 	let whis=1
-	while [ ${whis} -eq 1 ]
+	let gret=1;
+	while [[ ${whis} -eq 1 && ${gret} -eq 1 ]]
 	do
 		[[ -e ${normioutp} &&  $(sed -ne "2p" ${normioutp}) ]] && cat ${normioutp} >> ${cf}
 	   	vim -c 'set number' ${cf}
-		[[ $(grep "Error:" ${cf}) ]] && sed -i '' "/Error/,/^Error/d" ${cf}
-		clear
+		[[ $(grep "Error:" ${cf}) ]] && sed -i '' "/[Ee]rror/,/^Error/d" ${cf}
+#		clear
 		norminette ${cf} >| ${normioutp}  
 		let whis=$?
-		[[ ${whis} -eq 0 ]] && gcc -fsanitize=address -g3 -Wall -Wextra -Werror ${cf} 2> ${gci} && gret=$? && rm -f ${normioutp}
-		[[ ${gret} -eq 0 ]] && ./a.out || cat ${gci}
+		[[ ${whis} -eq 0 ]] && gcc -fsanitize=address -g3 -Wall -Wextra -Werror ${cf} 2>|${gccout} && gret=$? && rm -f ${normioutp}
+		[[ ${gret} -eq 0 ]] && ./a.out
+	    [[ -e ${gccout} ]] && cat ${gccout} >> ${cf}
 		continua
 	done
    continua
